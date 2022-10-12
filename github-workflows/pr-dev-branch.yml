@@ -9,7 +9,7 @@ on:
       # to a branch that has an existing pull request
       types: [opened, synchronize]
       # The branches filter allows to specify that this workflow should only
-      # run if the branch name is "develop". This way we prevent this workflow
+      # run if the branch name is "dev". This way we prevent this workflow
       # from running when PRs are opened on other branches
       branches: [ dev ]
       # We only care about changes to the force-app directory, which is the
@@ -120,6 +120,9 @@ jobs:
             # The steps to generate the url are here 
             # https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_auth_sfdxurl.htm
 
+            # sfdx force:org:display -u <ALIAS> --verbose will generate the Sfdx Auth Url
+            # The URL has format "force://<clientId>:<clientSecret>:<refreshToken>@<instanceUrl>".
+            # This is to be saved as a repository Actions secrets with name SFDX_DEV_URL | SFDX_QA_URL | SFDX_PRODUCTION_URL depending on org
             # This URL can then be used with the sfdx auth:sfdxurl:store to authenticate
             # the sfdx project in the repositry, against the org from which the URL
             # was generated from. This works just like that, there's no need to create
@@ -130,7 +133,7 @@ jobs:
             - name: 'Populate auth file with SFDX_URL secret of integration org'
               shell: bash
               run: |
-                  echo ${{ secrets.SFDX_DEV_URL}} > ./SFDX_DEV_URL.txt
+                  echo ${{ secrets.SFDX_DEV_URL }} > ./SFDX_DEV_URL.txt
             # Authenticate to org using the URL stored in the text file
             - name: 'Authenticate to Integration Org'
               run: sfdx auth:sfdxurl:store -f ./SFDX_DEV_URL.txt -s -a integration
