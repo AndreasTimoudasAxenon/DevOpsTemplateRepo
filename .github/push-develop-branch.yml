@@ -1,10 +1,10 @@
 # Unique name for this workflow
-name: Deploy dev branch to dev and qa org
+name: Deploy dev branch to dev org
 
 # Definition when the workflow should run
 on:
     push:
-      branches: [ integration ]
+      branches: [ dev ]
       paths:
         - 'force-app/**'
             
