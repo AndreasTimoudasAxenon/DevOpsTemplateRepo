@@ -30,6 +30,9 @@ node_modules/
 # MacOS system files
 .DS_Store
 
+# wierd dirs
+.vim-force.com
+
 # Windows system files
 Thumbs.db
 ehthumbs.db
