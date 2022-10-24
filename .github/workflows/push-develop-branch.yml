@@ -49,17 +49,17 @@ jobs:
               run: sfdx auth:sfdxurl:store -f ./SFDX_DEV_URL.txt -s -a development
 
             - name: 'Deploy the entire branch to development org'
-              run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests --json
+              run: sfdx force:source:deploy -p "changed-sources/force-app" --testlevel RunLocalTests --json
 
             - name: 'Deploy destructive changes (if any) to development org'
               run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
 
             # Authenticate to org
-            - name: 'Authenticate to QA Org to QA org'
-              run: sfdx auth:sfdxurl:store -f ./SFDX_QA_URL.txt -s -a qa
+            # - name: 'Authenticate to QA Org to QA org'
+            #   run: sfdx auth:sfdxurl:store -f ./SFDX_QA_URL.txt -s -a qa
 
-            - name: 'Deploy the entire branch'
-              run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests --json
+            # - name: 'Deploy the entire branch'
+            #   run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests --checkonly --json
 
-            - name: 'Deploy destructive changes (if any) to qa org'
-              run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
+            # - name: 'Deploy destructive changes (if any) to qa org'
+            #   run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
