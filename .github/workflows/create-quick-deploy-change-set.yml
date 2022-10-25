@@ -12,7 +12,7 @@ on: workflow_dispatch
       required: true
 
 
-#Jobs to be executed
+#Jobs to be Executed
 jobs:
     create-and-test-change-set:
         runs-on: ubunto-latest
