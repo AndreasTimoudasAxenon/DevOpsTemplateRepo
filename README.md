@@ -1,18 +1,22 @@
-# Salesforce DX Project: Next Steps
+# Axenon DevOps Template for new orgs
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+## WorkFlows
 
-## How Do You Plan to Deploy Your Changes?
+### pr-dev-branch.yml
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+A workflow that runs when a pull request is opened against the `dev` branch.
+Triggers is a pull request is `opened`, `synchronized` or `edited`. This means that if the workflow
+fails because of wrong test specified in the pull request template or because code doesn't pass the test
+all new commits to the feature-branch will get synchronized to the pull request and the workflow will re-run.
 
-## Configure Your Salesforce DX Project
+### push-develop-branch.yml
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+A workflow that runs when a pull request is approved and pushed to `dev` branch.
 
-## Read All About It
+When a pull request is approved a "change set" is created under the hood, `sfdx sgd:source:delta --to "HEAD" --from "HEAD^"`. This means that the change set contains everything from the recent commit to the previous commit on the branch.
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+This change set is later on deployed to the sandbox stored as `SFDX_DEV_URL` in a secret. The deployment is done in
+below fashion:
+`sfdx force:source:deploy -p "changed-sources/force-app" --testlevel RunLocalTests --json`
+meaning all test on that enviroment is run and a log is returned when finished. 
+This job is assumed to never fail.
