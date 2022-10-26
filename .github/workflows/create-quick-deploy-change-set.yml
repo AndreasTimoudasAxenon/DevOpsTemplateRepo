@@ -29,6 +29,7 @@ on:
 jobs:
     create-and-test-change-set:
         runs-on: ubuntu-latest
+        steps:
             #Install Salesforce CLI
             - name: 'Install SFDX'
               run: |
