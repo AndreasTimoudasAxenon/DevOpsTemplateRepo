@@ -4,9 +4,21 @@ name: Create inbound change set to SF porduction org
 on: 
   workflow_dispatch:
     inputs:
-        components:
-            description: 'Components to change set'
-            required: true
+        ApexComponents:
+            description: 'ApexClasses to change set'
+            required: false
+            type: text
+        ApexTriggers:
+            description: 'ApexTriggers to change set'
+            required: false
+            type: text
+        Flows:
+            description: 'Flows to change set'
+            required: false
+            type: text
+        Objects:
+            description: 'Objects to change set'
+            required: false
             type: text
         testclasses:
             description:
@@ -17,16 +29,16 @@ on:
 jobs:
     create-and-test-change-set:
         runs-on: ubuntu-latest
-        steps:
-            - run: |
-                echo "Components: " ${{ inputs.components }}
-                echo "Tests: " ${{ inputs.testclasses }}
-            #Install Salesforce CLI
-            # - name: 'Install SFDX'
-            #   run: |
-            #       wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-            #       mkdir ~/sfdx
-            #       tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-            #       echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-            #       ~/sfdx/bin/sfdx version
-  
+            Install Salesforce CLI
+            - name: 'Install SFDX'
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+            # Checkout the source code
+            - name: 'Checkout source code'
+              uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
