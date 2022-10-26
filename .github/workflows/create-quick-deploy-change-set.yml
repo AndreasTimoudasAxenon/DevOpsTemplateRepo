@@ -18,9 +18,9 @@ jobs:
     create-and-test-change-set:
         runs-on: ubunto-latest
         steps:
-            run: |
-              echo "Components: " ${{ inputs.components }}
-              echo "Tests: " ${{ inputs.testclasses }}
+            - run: |
+                echo "Components: " ${{ inputs.components }}
+                echo "Tests: " ${{ inputs.testclasses }}
             #Install Salesforce CLI
             # - name: 'Install SFDX'
             #   run: |
