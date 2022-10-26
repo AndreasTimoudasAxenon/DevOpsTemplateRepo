@@ -1,8 +1,9 @@
 name: Create inbound change set to SF porduction org
 
 #Definition when the workflow should run.
-on: workflow_dispatch
-  inputs:
+on: 
+  workflow_dispatch:
+    inputs:
         components:
             description: 'Components to change set'
             required: true
