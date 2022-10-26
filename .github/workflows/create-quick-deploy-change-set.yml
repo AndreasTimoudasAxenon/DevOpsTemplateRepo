@@ -46,7 +46,7 @@ jobs:
             - name: setup python
               uses: actions/setup-python@v2
               with:
-                python-version 3.8 #Install the python needed
+                python-version: 3.8 #install the python needed
             - name: execute python script
               run: |
                 python create_change_set.py ${{ github.event.inputs.ApexComponents }} ${{ github.event.inputs.ApexTriggers }} ${{ github.event.inputs.Flows }} ${{ github.event.inputs.Objects }} 
