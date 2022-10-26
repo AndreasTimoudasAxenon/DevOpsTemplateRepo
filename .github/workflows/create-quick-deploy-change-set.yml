@@ -49,4 +49,8 @@ jobs:
                 python-version: 3.8 #install the python needed
             - name: execute python script
               run: |
-                python create_change_set.py ${{ github.event.inputs.ApexComponents }} ${{ github.event.inputs.ApexTriggers }} ${{ github.event.inputs.Flows }} ${{ github.event.inputs.Objects }} 
+                python create_change_set.py \
+                --apex_classes=${{ github.event.inputs.ApexComponents }} \
+                --apex_triggers=${{ github.event.inputs.ApexTriggers }} \
+                --flows=${{ github.event.inputs.Flows }} \
+                --objects=${{ github.event.inputs.Objects }}
