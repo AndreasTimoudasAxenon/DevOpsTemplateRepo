@@ -29,7 +29,7 @@ on:
 jobs:
     create-and-test-change-set:
         runs-on: ubuntu-latest
-            Install Salesforce CLI
+            #Install Salesforce CLI
             - name: 'Install SFDX'
               run: |
                   wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
