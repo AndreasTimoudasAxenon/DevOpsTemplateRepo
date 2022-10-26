@@ -16,7 +16,7 @@ on:
 #Jobs to be Executed
 jobs:
     create-and-test-change-set:
-        runs-on: ubunto-latest
+        runs-on: ubuntu-latest
         steps:
             - run: |
                 echo "Components: " ${{ inputs.components }}
