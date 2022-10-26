@@ -14,7 +14,7 @@ def generate_package_xml(files):
     os.mkdir('toDeploy')
     TARGET_DIR = os.path.join(FILE_PATH, 'toDeploy')
     print('*** Change Set Directory created: ./toDeploy')
-    for key, value in files:
+    for key, value in files.items():
         if value:
             FILES_TO_FIND = [file.strip() for file in value.split(',')]
             if key == 'apex_classes':
