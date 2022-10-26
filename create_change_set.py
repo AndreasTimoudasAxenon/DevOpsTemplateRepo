@@ -25,6 +25,7 @@ def generate_package_xml(files):
                 find_and_copy_flow(FLOWS_PATH, TARGET_DIR, FILES_TO_FIND)
             else:
                 find_and_copy_object(OBJECTS_PATH, TARGET_DIR, FILES_TO_FIND)
+    print("*** FILES IN DEPLOY DIRECOTRY *** ")
     print(os.listdir(TARGET_DIR))
 
 def find_and_copy_apex(file_directory, target_directory, files_to_find):

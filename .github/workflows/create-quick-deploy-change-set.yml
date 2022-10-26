@@ -21,8 +21,9 @@ on:
             required: false
             type: text
         testclasses:
-            description:
+            description: Test Classes to include in Change Set
             required: false
+            type: text
 
 
 #Jobs to be Executed
@@ -54,3 +55,13 @@ jobs:
                 --apex_triggers="${{ github.event.inputs.ApexTriggers }}" \
                 --flows="${{ github.event.inputs.Flows }}" \
                 --objects="${{ github.event.inputs.Objects }}"
+            - name: 'Populate auth file with SFDX_URL secret of integration org'
+              shell: bash
+              run: |
+                  echo ${{ secrets.SFDX_DEV_URL }} > ./SFDX_DEV_URL.txt
+            # Authenticate to org using the URL stored in the text file
+            - name: 'Authenticate to Integration Org'
+              run: sfdx auth:sfdxurl:store -f ./SFDX_DEV_URL.txt -s -a integration
+            - name: 'Check-only deploy delta changes - run all specific tests'
+              run: |
+                  sfdx force:source:deploy -p "toDeploy" --checkonly --testlevel RunSpecifiedTests --runtests ${{github.event.inputs.testclasses}}  --json
