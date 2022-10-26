@@ -50,7 +50,7 @@ jobs:
             - name: execute python script
               run: |
                 python create_change_set.py \
-                --apex_classes=${{ github.event.inputs.ApexComponents }} \
-                --apex_triggers=${{ github.event.inputs.ApexTriggers }} \
-                --flows=${{ github.event.inputs.Flows }} \
-                --objects=${{ github.event.inputs.Objects }}
+                --apex_classes="${{ github.event.inputs.ApexComponents }}" \
+                --apex_triggers="${{ github.event.inputs.ApexTriggers }}" \
+                --flows="${{ github.event.inputs.Flows }}" \
+                --objects="${{ github.event.inputs.Objects }}"
