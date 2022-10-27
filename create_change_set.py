@@ -61,46 +61,45 @@ def create_package_xml(files):
     #       with open(OUTPUT_FILE, 'w'): pass
     # Create the root element
     package = etree.Element('Package', {'xmlns': "http://soap.sforce.com/2006/04/metadata"})
-    
-    #ApexClasses
-    ApexClasses = etree.SubElement(package, 'types')
-    name = etree.SubElement(ApexClasses, 'name')
-    name.text = 'ApexClass'
-    #ApexTriggers
-    ApexTriggers = etree.SubElement(package, 'types')
-    name = etree.SubElement(ApexTriggers, 'name')
-    name.text = 'ApexTriggers'
-    #Flows
-    Flows = etree.SubElement(package, 'types')
-    name = etree.SubElement(Flows, 'name')
-    name.text = 'Flows'
-    # Objects
-    Objects = etree.SubElement(package, 'types')
-    name = etree.SubElement(Objects, 'name')
-    name.text = 'Objects'
-    # Version
-    version = etree.SubElement(package, 'version')
-    version.text = '55.0'
     for file_type, file_names in files.items():
         if file_names:
             FILES_TO_FIND = [file.strip() for file in file_names.split(',')]
             print(file_type, FILES_TO_FIND)
             if file_type == 'apex_classes' and FILES_TO_FIND:
+                #ApexClasses
+                ApexClasses = etree.SubElement(package, 'types')
+                name = etree.SubElement(ApexClasses, 'name')
+                name.text = 'ApexClass'
                 for file in FILES_TO_FIND:
                     name = etree.SubElement(ApexClasses, 'members')
                     name.text = file
             elif file_type == 'apex_triggers' and FILES_TO_FIND:
+                #ApexTriggers
+                ApexTriggers = etree.SubElement(package, 'types')
+                name = etree.SubElement(ApexTriggers, 'name')
+                name.text = 'ApexTrigger'
                 for file in FILES_TO_FIND:
                     name = etree.SubElement(ApexTriggers, 'members')
                     name.text = file            
             elif file_type == 'flows' and FILES_TO_FIND:
+                #Flows
+                Flows = etree.SubElement(package, 'types')
+                name = etree.SubElement(Flows, 'name')
+                name.text = 'Flow'
                 for file in FILES_TO_FIND:
                     name = etree.SubElement(Flows, 'members')
                     name.text = file            
             elif file_type == 'objects' and FILES_TO_FIND:
+                # Objects
+                Objects = etree.SubElement(package, 'types')
+                name = etree.SubElement(Objects, 'name')
+                name.text = 'CustomObject'
                 for file in FILES_TO_FIND:
                     name = etree.SubElement(Objects, 'members')
                     name.text = file
+    # Version
+    version = etree.SubElement(package, 'version')
+    version.text = '55.0'
     doc = etree.ElementTree(package)
     doc.write(OUTPUT_FILE, pretty_print=True, xml_declaration = True, encoding='UTF-8', standalone=True)
 
