@@ -70,4 +70,4 @@ jobs:
               run: sfdx auth:sfdxurl:store -f ./SFDX_DEV_URL.txt -s -a integration
             - name: 'Check-only deploy delta changes - run all specific tests'
               run: |
-                  sfdx force:mdapi:deploy -d deploymentArtifact --checkonly --testlevel RunSpecifiedTests --runtests ${{github.event.inputs.testclasses}}  --json
+                  sfdx force:mdapi:deploy -f deploymentArtifact.zip --checkonly --testlevel RunSpecifiedTests --runtests ${{github.event.inputs.testclasses}}  --json
