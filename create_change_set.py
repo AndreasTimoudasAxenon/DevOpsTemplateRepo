@@ -64,7 +64,6 @@ def create_package_xml(files):
     for file_type, file_names in files.items():
         if file_names:
             FILES_TO_FIND = [file.strip() for file in file_names.split(',')]
-            print(file_type, FILES_TO_FIND)
             if file_type == 'apex_classes' and FILES_TO_FIND:
                 #ApexClasses
                 ApexClasses = etree.SubElement(package, 'types')
@@ -99,8 +98,9 @@ def create_package_xml(files):
                     name.text = file
     # Version
     version = etree.SubElement(package, 'version')
-    version.text = 55.0
+    version.text = '55.0'
     doc = etree.ElementTree(package)
+    print(etree.tostring(doc, pretty_print=True))
     doc.write(OUTPUT_FILE, pretty_print=True, xml_declaration = True, encoding='UTF-8', standalone=True)
 
 
