@@ -59,7 +59,7 @@ jobs:
                 --objects="${{ github.event.inputs.Objects }}"
             - name: build the .zip artifact
               run: |
-                sfdx force:source:convert --rootdir toDeploy --outputdir tmt_convert
+                sfdx force:source:convert --rootdir toDeploy --outputdir tmp_convert
                 zip -r deploymentArtifact.zip tmp_convert
             - name: 'Populate auth file with SFDX_URL secret of integration org'
               shell: bash
