@@ -99,7 +99,7 @@ def create_package_xml(files):
                     name.text = file
     # Version
     version = etree.SubElement(package, 'version')
-    version.text = '55.0'
+    version.text = 55.0
     doc = etree.ElementTree(package)
     doc.write(OUTPUT_FILE, pretty_print=True, xml_declaration = True, encoding='UTF-8', standalone=True)
 
