@@ -1,13 +1,22 @@
 # Unique name for this workflow
-name: Validate master branch to production org
+name: Validate PR on QA branch
 
 # Definition when the workflow should run
 on:
-    push:
-      branches: [ master ]
+    # The workflow will run whenever an event happens on a pull request
+    pull_request:
+      # The events are that a PR is opened, or when a commit is pushed
+      # to a branch that has an existing pull request
+      types: [opened, synchronize, edited]
+      # The branches filter allows to specify that this workflow should only
+      # run if the branch name is "dev". This way we prevent this workflow
+      # from running when PRs are opened on other branches
+      branches: [ qa ]
+      # We only care about changes to the force-app directory, which is the
+      # root directory of the sfdx project. This prevents the job from running
+      # when changing non-salesforce files (like this yml file).
       paths:
         - 'force-app/**'
-            
 
 # Jobs to be executed
 jobs:
@@ -38,17 +47,17 @@ jobs:
             - name: 'Populate auth file with SFDX_URL secret of the integration and staging orgs'
               shell: bash
               run: |
-                  echo ${{ secrets.SFDX_PRODUCTION_URL}} > ./SFDX_PRODUCTION_URL.txt
+                  echo ${{ secrets.SFDX_QA_URL}} > ./SFDX_QA_URL.txt
             - name: 'Create delta packages for new, modified or deleted metadata'
               run: | 
                   mkdir changed-sources
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
-            # Authenticate to org
-            # - name: 'Authenticate to Production Org'
-            #   run: sfdx auth:sfdxurl:store -f ./SFDX_PRODUCTION_URL.txt -s -a production
+            Authenticate to org
+            - name: 'Authenticate to QA Org'
+              run: sfdx auth:sfdxurl:store -f ./SFDX_QA_URL.txt -s -a qa
 
-            # - name: 'Deploy the entire branch to Production org'
-            #   run: sfdx force:source:deploy -p force-app --checkonly --testlevel RunLocalTests --json
+            - name: 'Deploy the entire branch to Production org'
+              run: sfdx force:source:deploy -p force-app --checkonly --testlevel RunLocalTests --json
 
-            # - name: 'Deploy destructive changes (if any) to Production org'
-            #   run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
+            - name: 'Deploy destructive changes (if any) to Production org'
+              run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
