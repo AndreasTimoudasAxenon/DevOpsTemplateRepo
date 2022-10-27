@@ -29,9 +29,11 @@ def generate_deployment_dir(files):
                 find_and_copy_object(OBJECTS_PATH, TARGET_DIR, FILES_TO_FIND)
     print("*** FILES IN DEPLOY DIRECOTRY ***")
     print(os.listdir(TARGET_DIR))
-    print('*** GENERATE PACKAGE.XML ***')
-    create_package_xml(files)
-    print('*** DONE ***')
+    # print('*** GENERATE PACKAGE.XML ***')
+    # create_package_xml(files)
+    # print('*** DONE ***')
+    # shutil.make_archive(TARGET_DIR, 'zip', TARGET_DIR)
+
 
 def find_and_copy_apex(file_directory, target_directory, files_to_find):
     for file in os.listdir(file_directory):
