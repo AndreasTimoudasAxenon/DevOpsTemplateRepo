@@ -13,7 +13,8 @@ OBJECTS_PATH = os.path.join(FILE_PATH, 'force-app', 'main', 'default', 'objects'
 TARGET_DIR = os.path.join(FILE_PATH, 'toDeploy')
 
 def generate_deployment_dir(files):
-    os.mkdir('toDeploy')
+    if not os.path.exists(TARGET_DIR):
+        os.mkdir(TARGET_DIR)
     print('*** Change Set Directory created: ./toDeploy')
     for key, value in files.items():
         if value:
@@ -26,8 +27,11 @@ def generate_deployment_dir(files):
                 find_and_copy_flow(FLOWS_PATH, TARGET_DIR, FILES_TO_FIND)
             else:
                 find_and_copy_object(OBJECTS_PATH, TARGET_DIR, FILES_TO_FIND)
-    print("*** FILES IN DEPLOY DIRECOTRY *** ")
+    print("*** FILES IN DEPLOY DIRECOTRY ***")
     print(os.listdir(TARGET_DIR))
+    print('*** GENERATE PACKAGE.XML ***')
+    create_package_xml(files)
+    print('*** DONE ***')
 
 def find_and_copy_apex(file_directory, target_directory, files_to_find):
     for file in os.listdir(file_directory):
@@ -53,6 +57,8 @@ def find_and_copy_object(file_directory, target_directory, files_to_find):
 
 def create_package_xml(files):
     OUTPUT_FILE = os.path.join(TARGET_DIR, 'package.xml')
+    # if not os.path.isfile(OUTPUT_FILE):
+    #       with open(OUTPUT_FILE, 'w'): pass
     # Create the root element
     package = etree.Element('Package', {'xmlns': "http://soap.sforce.com/2006/04/metadata"})
     
@@ -72,6 +78,9 @@ def create_package_xml(files):
     Objects = etree.SubElement(package, 'types')
     name = etree.SubElement(Objects, 'name')
     name.text = 'Objects'
+    # Version
+    version = etree.SubElement(package, 'version')
+    version.text = '55.0'
     for file_type, file_names in files.items():
         if file_names:
             FILES_TO_FIND = [file.strip() for file in file_names.split(',')]
@@ -108,4 +117,4 @@ if __name__ == '__main__':
     flows = args.flows
     objects = args.objects
     files = {'apex_classes': apex_classes, 'apex_triggers': apex_triggers, 'flows': flows, 'objects': objects}
-    test = create_package_xml(files)
+    test = generate_deployment_dir(files)
