@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 import shutil
+from lxml import etree
 
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -9,10 +10,10 @@ APEX_CLASSES_PATH = os.path.join(FILE_PATH, 'force-app', 'main', 'default', 'cla
 APEX_TRIGGER_PATH = os.path.join(FILE_PATH, 'force-app', 'main', 'default', 'triggers')
 FLOWS_PATH = os.path.join(FILE_PATH, 'force-app', 'main', 'default', 'flows')
 OBJECTS_PATH = os.path.join(FILE_PATH, 'force-app', 'main', 'default', 'objects')
+TARGET_DIR = os.path.join(FILE_PATH, 'toDeploy')
 
-def generate_package_xml(files):
+def generate_deployment_dir(files):
     os.mkdir('toDeploy')
-    TARGET_DIR = os.path.join(FILE_PATH, 'toDeploy')
     print('*** Change Set Directory created: ./toDeploy')
     for key, value in files.items():
         if value:
@@ -50,6 +51,51 @@ def find_and_copy_object(file_directory, target_directory, files_to_find):
             xml_file = os.path.join(file_directory, file, f"{file}.object-meta.xml")
             shutil.copy(xml_file, target_directory)
 
+def create_package_xml(files):
+    OUTPUT_FILE = os.path.join(TARGET_DIR, 'package.xml')
+    # Create the root element
+    package = etree.Element('Package', {'xmlns': "http://soap.sforce.com/2006/04/metadata"})
+    
+    #ApexClasses
+    ApexClasses = etree.SubElement(package, 'types')
+    name = etree.SubElement(ApexClasses, 'name')
+    name.text = 'ApexClass'
+    #ApexTriggers
+    ApexTriggers = etree.SubElement(package, 'types')
+    name = etree.SubElement(ApexTriggers, 'name')
+    name.text = 'ApexTriggers'
+    #Flows
+    Flows = etree.SubElement(package, 'types')
+    name = etree.SubElement(Flows, 'name')
+    name.text = 'Flows'
+    # Objects
+    Objects = etree.SubElement(package, 'types')
+    name = etree.SubElement(Objects, 'name')
+    name.text = 'Objects'
+    for file_type, file_names in files.items():
+        if file_names:
+            FILES_TO_FIND = [file.strip() for file in file_names.split(',')]
+            print(file_type, FILES_TO_FIND)
+            if file_type == 'apex_classes' and FILES_TO_FIND:
+                for file in FILES_TO_FIND:
+                    name = etree.SubElement(ApexClasses, 'members')
+                    name.text = file
+            elif file_type == 'apex_triggers' and FILES_TO_FIND:
+                for file in FILES_TO_FIND:
+                    name = etree.SubElement(ApexTriggers, 'members')
+                    name.text = file            
+            elif file_type == 'flows' and FILES_TO_FIND:
+                for file in FILES_TO_FIND:
+                    name = etree.SubElement(Flows, 'members')
+                    name.text = file            
+            elif file_type == 'objects' and FILES_TO_FIND:
+                for file in FILES_TO_FIND:
+                    name = etree.SubElement(Objects, 'members')
+                    name.text = file
+    doc = etree.ElementTree(package)
+    doc.write(OUTPUT_FILE, pretty_print=True, xml_declaration = True, encoding='UTF-8', standalone=True)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--apex_classes')
@@ -62,4 +108,4 @@ if __name__ == '__main__':
     flows = args.flows
     objects = args.objects
     files = {'apex_classes': apex_classes, 'apex_triggers': apex_triggers, 'flows': flows, 'objects': objects}
-    test = generate_package_xml(files)
+    test = create_package_xml(files)
