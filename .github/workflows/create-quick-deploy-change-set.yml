@@ -64,10 +64,10 @@ jobs:
             - name: 'Populate auth file with SFDX_URL secret of integration org'
               shell: bash
               run: |
-                  echo ${{ secrets.SFDX_DEV_URL }} > ./SFDX_DEV_URL.txt
+                  echo ${{ secrets.SFDX_PROD_URL }} > ./SFDX_PROD_URL.txt
             # Authenticate to org using the URL stored in the text file
-            - name: 'Authenticate to Integration Org'
-              run: sfdx auth:sfdxurl:store -f ./SFDX_DEV_URL.txt -s -a integration
+            - name: 'Authenticate to Production Org'
+              run: sfdx auth:sfdxurl:store -f ./SFDX_PROD_URL.txt -s -a prod
             - name: 'Check-only deploy delta changes - run all specific tests'
               run: |
                   sfdx force:mdapi:deploy --zipfile deploymentArtifact.zip --checkonly --testlevel RunSpecifiedTests --runtests ${{github.event.inputs.testclasses}}  --json
