@@ -39,7 +39,7 @@ jobs:
               shell: bash
               run: |
                   echo ${{ secrets.SFDX_DEV_URL}} > ./SFDX_DEV_URL.txt
-                  echo ${{ secrets.SFDX_QA_URL}} > ./SFDX_QA_URL.txt
+            
             - name: 'Create delta packages for new, modified or deleted metadata'
               run: | 
                   mkdir changed-sources
@@ -54,12 +54,3 @@ jobs:
             - name: 'Deploy destructive changes (if any) to development org'
               run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
 
-            # Authenticate to org
-            # - name: 'Authenticate to QA Org to QA org'
-            #   run: sfdx auth:sfdxurl:store -f ./SFDX_QA_URL.txt -s -a qa
-
-            # - name: 'Deploy the entire branch'
-            #   run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests --checkonly --json
-
-            # - name: 'Deploy destructive changes (if any) to qa org'
-            #   run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
