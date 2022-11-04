@@ -20,7 +20,7 @@ on:
 
 # Jobs to be executed
 jobs:
-    deploy-branch-to-production-org:
+    validate-deployment-on-qa-org:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
@@ -56,7 +56,7 @@ jobs:
             - name: 'Authenticate to QA Org'
               run: sfdx auth:sfdxurl:store -f ./SFDX_QA_URL.txt -s -a qa
 
-            - name: 'Deploy the entire branch to Production org'
+            - name: 'Deploy the entire branch to QA org'
               run: sfdx force:source:deploy -p force-app --checkonly --testlevel RunLocalTests --json
 
             - name: 'Deploy destructive changes (if any) to Production org'

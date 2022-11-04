@@ -22,11 +22,9 @@ on:
 # Jobs to be executed when the above conditions are met
 jobs:
     # This is the name of the job. You can give it whatever name you want
-    validate-deployment-on-develop-org:
-        # As mentioned in the blog post, this job runs inside a VM. Here we
-        # can specify which OS this VM should run on. 
-        # In this case, we are going to run our commands on the latest version
-        # of ubuntu
+    validate-deployment-on-production-org:
+        # This job runs inside a VM. Here we can specify which OS this VM should run on. 
+        # In this case, we are going to run our commands on the latest version of ubuntu
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
@@ -130,7 +128,7 @@ jobs:
 
             # The URL is stored in the Github Secret named SFDX_INTEGRATION_URL
             # so here we store the URL into a text file
-            - name: 'Populate auth file with SFDX_URL secret of integration org'
+            - name: 'Populate auth file with SFDX_URL secret of Production org'
               shell: bash
               run: |
                   echo ${{ secrets.SFDX_PROD_URL }} > ./SFDX_PROD_URL.txt
