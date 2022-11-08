@@ -7,7 +7,7 @@ To setup a repository for a new org with the workflows, one can create a new rep
 After that is done, go to `Settings` and add the Salesforce AuthUrl as `secrets` under the names `SFDX_DEV_URL`, `SFDX_QA_URL` and `SFDX_PROD_URL` with the respective enviroment AuthUrl under each secret. Once that is done the workflows will be able to auth against each environment. To get the secrets:
 
 `sfdx force:org:display -u <ALIAS> --verbose` will generate the Sfdx Auth Url
-The URL has format "force://<clientId>:<clientSecret>:<refreshToken>@<instanceUrl>".
+The URL has format `"force://<clientId>:<clientSecret>:<refreshToken>@<instanceUrl>"`.
 
 If QA is not needed than the QA related jobs can be disabled. Either way the jobs will not be triggered since the
 qa branch will not exist.
