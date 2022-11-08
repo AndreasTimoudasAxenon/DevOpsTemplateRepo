@@ -1,5 +1,13 @@
 # Axenon DevOps Template for new orgs
 
+
+## Setup
+
+To setup a repository for a new org with the workflows, one can create a new repo from tempalate and use this one.
+After that is done, go to `Settings` and add the Salesforce AuthUrl as `secrets` under the names `SFDX_DEV_URL`, `SFDX_QA_URL` and `SFDX_PROD_URL` with the respective enviroment AuthUrl under each secret. Once that is done the workflows will be able to auth against each enviroment.
+
+If QA is not needed than the QA related jobs can be disabled. Either way the jobs will not be triggered since the
+qa branch will not exist.
 ## WorkFlows
 
 ### pr-dev-branch.yml
