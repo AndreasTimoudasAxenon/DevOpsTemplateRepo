@@ -24,7 +24,7 @@ all new commits to the feature-branch will get synchronized to the pull request 
 
 A workflow that runs when a pull request is approved and pushed to `dev` branch.
 
-When a pull request is approved a "change set" is created under the hood, `sfdx sgd:source:delta --to "HEAD" --from "HEAD^"`. This means that the change set contains everything from the recent commit to the previous commit on the branch.
+When a pull request is approved a "change set" is created under the hood, `sfdx sgd:source:delta --to "HEAD" --from "BRANCHING POINT COMMIT SHA"`. This means that the change set contains everything from the recent commit to the previous commit on the branch.
 
 This change set is later on deployed to the sandbox stored as `SFDX_DEV_URL` in a secret. The deployment is done in
 below fashion:
