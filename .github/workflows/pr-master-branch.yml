@@ -104,13 +104,6 @@ jobs:
               run: | 
                   echo y | sfdx plugins:install sfdx-git-delta
                   sfdx plugins 
-            # Install java as it is required for the next step
-            - name: 'Installing java'
-              run: sudo apt-get install openjdk-8-jdk
-
-            # Install SFDX scanner
-            # - name: 'Installing SFDX scanner'
-            #   run: sfdx plugins:install @salesforce/sfdx-scanner
 
             # Prior to setting up this workflow, you have to create a Github Secret
             # that contains the sfdx url of the integration/qa org.
