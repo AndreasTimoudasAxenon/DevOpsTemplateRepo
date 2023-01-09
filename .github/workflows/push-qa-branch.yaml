@@ -48,7 +48,7 @@ jobs:
               run: sfdx auth:sfdxurl:store -f ./SFDX_QA_URL.txt -s -a qa
 
             - name: 'Deploy the entire branch to development org'
-              run: sfdx force:source:deploy -p "changed-sources/package/package.xml" --testlevel RunLocalTests --json
+              run: sfdx force:source:deploy -x "changed-sources/package/package.xml" --testlevel RunLocalTests --json
 
             - name: 'Deploy destructive changes (if any) to development org'
               run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
