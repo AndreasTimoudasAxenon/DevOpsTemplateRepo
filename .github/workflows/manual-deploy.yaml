@@ -17,6 +17,10 @@ jobs:
     create-and-test-change-set:
         runs-on: ubuntu-latest
         steps:
+          - uses: trstringer/manual-approval@v1
+            with:
+              secret: ${{ github.TOKEN }}
+              approvers: AndreasTimoudasAxenon
             #Install Salesforce CLI
             - name: 'Install SFDX'
               run: |
