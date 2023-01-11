@@ -1,4 +1,4 @@
-name: Manually deploy to branch to sandbox
+name: Manually deploy to branch to SFOrg
 
 #Definition when the workflow should run.
 on: 
