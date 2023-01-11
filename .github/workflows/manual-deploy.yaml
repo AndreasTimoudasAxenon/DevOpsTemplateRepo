@@ -3,6 +3,11 @@ name: Manually deploy to branch to SFOrg
 #Definition when the workflow should run.
 on: 
   workflow_dispatch:
+    inputs:
+      confirm:
+        type: boolean
+        default: false
+        required: true
 
 env:
  BRANCH_NAME: ${{ github.ref_name }} 
