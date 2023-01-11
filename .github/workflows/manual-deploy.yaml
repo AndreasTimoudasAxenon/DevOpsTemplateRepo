@@ -4,10 +4,10 @@ name: Manually deploy to branch to SFOrg
 on: 
   workflow_dispatch:
     inputs:
-      confirm:
-        type: boolean
-        default: false
+      confirm_branch:
+        type: string
         required: true
+        description: Confirm branch
 
 env:
  BRANCH_NAME: ${{ github.ref_name }} 
