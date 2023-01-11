@@ -27,19 +27,19 @@ jobs:
                 fetch-depth: 0
             
             - name: 'Populate auth file with SFDX_URL secret of Development org'
-              if: ${{ env.BRANCH_NAME == dev }}
+              if: ${{ env.BRANCH_NAME == 'dev' }}
               shell: bash
               run: |
                   echo ${{ secrets.SFDX_DEV_URL }} > ./SFDX_AUTH_URL.txt
 
             - name: 'Populate auth file with SFDX_URL secret of QA org'
-              if: ${{ env.BRANCH_NAME == qa }}
+              if: ${{ env.BRANCH_NAME == 'qa' }}
               shell: bash
               run: |
                   echo ${{ secrets.SFDX_QA_URL }} > ./SFDX_AUTH_URL.txt
 
             - name: 'Populate auth file with SFDX_URL secret of Production org'
-              if: ${{ env.BRANCH_NAME == master }}
+              if: ${{ env.BRANCH_NAME == 'master' }}
               shell: bash
               run: |
                   echo ${{ secrets.SFDX_PROD_URL }} > ./SFDX_AUTH_URL.txt
