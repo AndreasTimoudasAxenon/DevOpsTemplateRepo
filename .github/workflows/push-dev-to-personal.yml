@@ -39,8 +39,8 @@ jobs:
     deploy-branch-to-personal-orgs:
         needs: create_matrix
         runs-on: ubuntu-latest
-          strategy:
-            matrix: ${{fromJson(needs.create_matrix.outputs.matrix)}}
+            strategy:
+                matrix: ${{fromJson(needs.create_matrix.outputs.matrix)}}
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
             # Install Salesforce CLI
