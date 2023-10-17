@@ -11,30 +11,30 @@ on:
 
 # Jobs to be executed
 jobs:
-  create_matrix:
-      runs-on: ubuntu-latest
-      outputs:
-        secrets_matrix: ${{ steps.create_matrix.outputs.secrets_matrix }}
+    create_matrix:
+        runs-on: ubuntu-latest
+        outputs:
+          secrets_matrix: ${{ steps.create_matrix.outputs.secrets_matrix }}
 
-      steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v2
+        steps:
+        - name: Set up Git repository
+          uses: actions/checkout@v2
 
-      - name: Create Secret Matrix
-        id: create_matrix
-        run: |
-          SECRETS=($(compgen -e | grep '_PERSONAL$' | sort))
-          SECRET_COUNT=${#SECRETS[@]}
-          echo "Found $SECRET_COUNT secrets"
-          
-          SECRETS_MATRIX="["
-          for ((i=0; i<$SECRET_COUNT; i++)); do
-            SECRETS_MATRIX+="\"${SECRETS[$i]\","
-          done
-          SECRETS_MATRIX="${SECRETS_MATRIX%,}]"
-          
-          echo "::set-output name=secrets_matrix::$SECRETS_MATRIX"
-        shell: bash
+        - name: Create Secret Matrix
+          id: create_matrix
+          run: |
+            SECRETS=($(compgen -e | grep '_PERSONAL$' | sort))
+            SECRET_COUNT=${#SECRETS[@]}
+            echo "Found $SECRET_COUNT secrets"
+            
+            SECRETS_MATRIX="["
+            for ((i=0; i<$SECRET_COUNT; i++)); do
+              SECRETS_MATRIX+="\"${SECRETS[$i]\","
+            done
+            SECRETS_MATRIX="${SECRETS_MATRIX%,}]"
+            
+            echo "::set-output name=secrets_matrix::$SECRETS_MATRIX"
+          shell: bash
 
     deploy-branch-to-personal-orgs:
         needs: create_matrix
