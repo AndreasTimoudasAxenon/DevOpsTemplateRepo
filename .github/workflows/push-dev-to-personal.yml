@@ -32,7 +32,7 @@ jobs:
               SECRETS_MATRIX+="\"${SECRETS[$i]\","
             done
             SECRETS_MATRIX="${SECRETS_MATRIX%,}]"
-            
+        
             echo "::set-output name=secrets_matrix::$SECRETS_MATRIX"
           shell: bash
 
@@ -43,6 +43,9 @@ jobs:
             matrix: ${{fromJson(needs.create_matrix.outputs.matrix)}}
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
+              - name: Print Matrix Output
+                run: |
+                  echo "Matrix Output: ${{ needs.create_matrix.outputs.matrix_output }}"
             # Install Salesforce CLI
             - name: 'Install Salesforce CLI'
               run: |
